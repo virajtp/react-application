@@ -37,7 +37,6 @@ const Login = () => {
         setErrorMessages({ name: ""});
         console.log("Login Failed")
       }
-        navigate("/report");
     } catch (error) {
       setErrorMessages({ name: ""});
     }
@@ -100,9 +99,10 @@ const Login = () => {
   return (
     <div className="log">
       <div className="login-form">
-        {isSubmitted ? (
-          navigate("/reportPage")
-        ) : (renderForm)}
+        {/* {isSubmitted ? (
+          navigate("/reportPag")
+        ) : (renderForm)} */}
+        {renderForm}
       </div>
     </div>
   );

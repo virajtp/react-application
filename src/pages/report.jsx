@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableHead, TableBody, TableRow, TableCell, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const TransactionTable = () => {
+  const navigate = useNavigate();
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -32,61 +35,70 @@ const TransactionTable = () => {
 
   return (
 
-    <div className='transaction_table'>
-      {summary ? (<div>
-        <h1>Total Revenue = {summary.totalRevenue}</h1>
-        <h1>Total Transaction Count = {summary.totalTransactionCount}</h1>
+
+    <div>
+      <Button onClick={()=>navigate("/allTasks")} color="primary">
+        Show all Tasks
+      </Button>
+
+      <div className='transaction_table'>
+        {summary ? (<div>
+          <h3>Total Revenue = {summary.totalRevenue}</h3>
+          <h3>Total Transaction Count = {summary.totalTransactionCount}</h3>
+          <h3>Total Card Transactions = {summary.totalCardTransaction}</h3>
+          <h3>Total Cash Transactions = {summary.totalCashTransaction}</h3>
+          <h3>Total QR Transactions = {summary.totalQrTransaction}</h3>
         </div>) : ""}
+        <Table>
+          <TableHead>
+            <TableCell>ID</TableCell>
+            <TableCell>Amount</TableCell>
+            <TableCell>Date & Time</TableCell>
+          </TableHead>
+          <TableBody>
+            {transactions ? transactions.transaction_list.map((transaction) => (
+              <TableRow key={transaction.id} onClick={() => handleTransactionClick(transaction)}>
+                <TableCell>{transaction.id}</TableCell>
+                <TableCell>{transaction.amount}</TableCell>
+                <TableCell>{transaction.dateTime}</TableCell>
+              </TableRow>
+            )) : ""}
+          </TableBody>
+        </Table>
 
-      <Table>
-        <TableHead>
-          <TableCell>ID</TableCell>
-          <TableCell>Amount</TableCell>
-          <TableCell>Date & Time</TableCell>
-        </TableHead>
-        <TableBody>
-          {transactions ? transactions.transaction_list.map((transaction) => (
-            <TableRow key={transaction.id} onClick={() => handleTransactionClick(transaction)}>
-              <TableCell>{transaction.id}</TableCell>
-              <TableCell>{transaction.amount}</TableCell>
-              <TableCell>{transaction.dateTime}</TableCell>
-            </TableRow>
-          )) : ""}
-        </TableBody>
-      </Table>
-
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Transaction Details</DialogTitle>
-        <DialogContent>
-          {selectedTransaction && (
-            <DialogContentText>
-              ID: {selectedTransaction.id}
-              <br />
-              Payment Mode: {selectedTransaction.paymentMode}
-              <br />
-              Customer Mobile: {selectedTransaction.custMobile}
-              <br />
-              Card Label: {selectedTransaction.cardLabel}
-              <br />
-              Invoice No: {selectedTransaction.invoiceNo}
-              <br />
-              Amonunt: {selectedTransaction.amount}
-              <br />
-              Currency: {selectedTransaction.currency}
-              <br />
-              Pan: {selectedTransaction.pan}
-              <br />
-              Date Time: {selectedTransaction.dateTime}
-              <br />
-            </DialogContentText>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <DialogTitle>Transaction Details</DialogTitle>
+          <DialogContent>
+            {selectedTransaction && (
+              <DialogContentText>
+                ID: {selectedTransaction.id}
+                <br />
+                Payment Mode: {selectedTransaction.paymentMode}
+                <br />
+                Customer Mobile: {selectedTransaction.custMobile}
+                <br />
+                Card Label: {selectedTransaction.cardLabel}
+                <br />
+                Invoice No: {selectedTransaction.invoiceNo}
+                <br />
+                Amonunt: {selectedTransaction.amount}
+                <br />
+                Currency: {selectedTransaction.currency}
+                <br />
+                Pan: {selectedTransaction.pan}
+                <br />
+                Date Time: {selectedTransaction.dateTime}
+                <br />
+              </DialogContentText>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </div>
   );
 };

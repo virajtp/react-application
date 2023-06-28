@@ -14,7 +14,11 @@ code {
 
 .transaction_table {
   padding: 50px;
-  
-  
+
+}
+
+.add_btn {
+  padding-left: 50px;
+  padding-top: 25px;
 }
 
