@@ -27,27 +27,19 @@ const Login = () => {
         "username": username,
         "password": password
       });
-      console.log(response.data.user_data.name);
+      console.log(response);
 
-
-      ////////////////////////////////////////////////////////////////////////
-      // save response.data
-      // user role
-      // handle 401
-
-      // if (response.data.token == "true") {
-        navigate("/dashboard");
-      // }
-      // else if (response.data.token == "Invalid password") {
-      //   console.log(response.data.token);
-      //   setErrorMessages({ name: "pass"});
-      // }
-      // else {
-      //   setErrorMessages({ name: "uname"});
-      // }
-
+      if(response.data.res_code == 200){
+        localStorage.setItem('react_user', JSON.stringify(response.data.user_data));
+        navigate("/report");
+      }
+      else{
+        setErrorMessages({ name: ""});
+        console.log("Login Failed")
+      }
+        navigate("/report");
     } catch (error) {
-      // Handle login error
+      setErrorMessages({ name: ""});
     }
   };
 
@@ -79,7 +71,7 @@ const Login = () => {
             id="userName"
             label="User Name"
             name="userName"
-            error={renderErrorMessage("uname")}
+            error={renderErrorMessage("")}
             autoFocus
           />
           <TextField
@@ -90,7 +82,7 @@ const Login = () => {
             label="Password"
             type="password"
             id="password"
-            error={renderErrorMessage("pass")}
+            error={renderErrorMessage("")}
           />
           <Button
             type="submit"

@@ -91,7 +91,7 @@ const TransactionTable = () => {
   );
 };
 
-const Dashboard = () => {
+const Report = () => {
 
   return (
     <div>
@@ -101,4 +101,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Report;
